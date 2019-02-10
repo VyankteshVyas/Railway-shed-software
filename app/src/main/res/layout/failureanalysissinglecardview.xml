@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:textColor="@android:color/black"
+                    android:text="12456"
+                    android:layout_weight="1"
+                    android:id="@+id/lociNumber"
+                    android:background="@drawable/singlecardviewedittextstyle"
+                    android:textSize="25sp"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:background="@drawable/singlecardviewedittextstyle"
+                    android:text="12333"
+                    android:id="@+id/trainiNs"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/v1"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Driver name"
+                    android:textSize="18sp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@android:color/black"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:id="@+id/driviname"
+                    android:text="sh Narendra Kumar"
+                    android:textColor="@android:color/black"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:weightSum="2"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Direct punc"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/dirpunc"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="68"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Detection"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/detection"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="80"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Division"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/division"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="RTM"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Make"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/emake"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="FITL"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="eqp"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/eqp"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="MR-1 Safety Valve"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Fai. Date"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/failurerdate"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="2018-12-16"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Head Qua."
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/headquaters"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="COR"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Home Shed"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/homeshed"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="Ratlam"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Indi. Punc"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/indirectpunctuality"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="19329-3"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Last fitt"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/lastfittment"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="M-16"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="L.F. date"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/lastfittmentdate"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="2018-12-09"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="lastoh"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/lastoh"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="2018-08-10"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Sel station"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/SelectionStation"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="RTM-COR"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Site"
+
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/Site"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="MDS"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white"
+                        android:weightSum="2"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:text="Time Occ."
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/Timeofocuurence"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:text="18:40:00"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>
