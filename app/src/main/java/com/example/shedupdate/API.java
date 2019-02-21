@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 
 public interface API {
 
+    //192.168.43.162:8080
     //String BASE_URL = "http://132.148.83.221:8080/amaan/webapi/aliens/alien/";
     //String Base2_URL="http://132.148.83.221:8080/amaan/webapi/fails/fail/";
     String BASE_URL = "http://132.148.83.221:8080/amaan/webapi/aliens/alien/";
@@ -21,7 +22,7 @@ public interface API {
 
 
     @GET("material")
-    Call<List<MaterialPlanningResponse>> getmatplannesponses();
+    Call<List<MachineandPlantResponse>> getmatplannesponses();
 
 
 

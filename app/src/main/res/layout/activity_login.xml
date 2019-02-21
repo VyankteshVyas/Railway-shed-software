@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
-    android:background="@drawable/loging"
+    android:background="@drawable/androidmobile"
     android:layout_height="match_parent"
     tools:context=".Login">
 
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044" />
+        app:layout_constraintVertical_bias="0.027" />
 
 
     <LinearLayout
@@ -40,21 +40,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.268">
+        app:layout_constraintVertical_bias="0.0">
 
         <EditText
             android:id="@+id/registeringusername"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
+            android:drawablePadding="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittextstyle"
             android:hint="User Name"
+            android:drawableLeft="@drawable/whiteuserlogin"
             android:inputType="text"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/password"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,14 +72,15 @@
             android:layout_below="@id/loginid"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/whitekeylogin"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittextstyle"
             android:hint="Password"
             android:inputType="textVisiblePassword"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
-
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
+            android:drawablePadding="10dp"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/login"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,24 +92,35 @@
             android:id="@+id/registermobilenubmer"
             android:layout_width="300dp"
             android:layout_height="50dp"
+
+            android:drawableLeft="@drawable/whilephonelogin"
+            android:inputType="number"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="12dp"
+            android:drawablePadding="10dp"
             android:background="@drawable/edittextstyle"
             android:hint="Mobile No."
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
             android:textSize="30sp" />
 
-        <Spinner
+        <EditText
             android:id="@+id/usertypespinner"
             android:layout_width="300dp"
+            android:drawableLeft="@drawable/whiteloginpost"
+            android:drawablePadding="10dp"
+            android:inputType="text"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittextstyle"
-            android:entries="@array/TypesOfUsers">
+            android:hint="Post"
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
+            android:textSize="30sp"
+            >
 
-        </Spinner>
+        </EditText>
 
         <Button
             android:id="@+id/register"
@@ -115,12 +129,12 @@
             android:layout_below="@id/password"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/buttonstyle"
             android:text="Sign Up"
-            android:textColor="@android:color/white"
+            android:textColor="#032F90"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -133,35 +147,37 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="330dp"
-        android:layout_below="@+id/image"
         android:id="@+id/lino"
+        android:layout_width="355dp"
+        android:layout_height="400dp"
+        android:layout_below="@+id/image"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.268">
+        app:layout_constraintVertical_bias="0.062">
 
         <EditText
             android:id="@+id/loginid"
             android:layout_width="300dp"
             android:layout_height="65dp"
             android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/whiteuserlogin"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="8dp"
+            android:drawablePadding="10dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittextstyle"
             android:hint="User Name"
             android:inputType="text"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/password"
             app:layout_constraintEnd_toEndOf="parent"
@@ -176,13 +192,16 @@
             android:layout_height="64dp"
             android:layout_below="@id/loginid"
             android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/whitekeylogin"
+            android:drawablePadding="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittextstyle"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorHint="@android:color/white"
+            android:textColor="#032F90"
+            android:textColorHint="#032F90"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/login"
             app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +221,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/buttonstyle"
             android:text="Login"
-            android:textColor="@android:color/white"
+            android:textColor="#032F90"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -212,17 +231,62 @@
             app:layout_constraintVertical_bias="0.919" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="18sp"
-            android:text="Don't have an account? Sign Up"
-            android:clickable="true"
             android:id="@+id/signuplink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
             android:linksClickable="true"
-            android:textColor="@android:color/white"
-            android:layout_height="match_parent" />
+            android:text="Don't have an account? Sign Up"
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/registerinpro"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:clickable="true"
+            android:linksClickable="true"
+            android:text="Approval Pending. Please contact SSE/MIC"
+            android:textColor="#032F90"
+            android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/v1"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#032F90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.794" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="5dp"
+        android:text="Shri. Vinod Kumar - Sr. DME Ratlam"
+        android:textColor="#032F90"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v1"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 

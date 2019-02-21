@@ -3,10 +3,12 @@ package com.example.shedupdate.restClient;
 
 
 import com.example.shedupdate.Loginingresponse;
+import com.example.shedupdate.NoteSaveResponse;
 import com.example.shedupdate.RegisterResponse;
 import com.example.shedupdate.restClient.request.ActualLoginRequest;
 import com.example.shedupdate.restClient.request.LoginRequest;
 import com.example.shedupdate.FailureAnalysisResponse;
+import com.example.shedupdate.restClient.request.NotessveLoginRequest;
 import com.example.shedupdate.restClient.response.LoginResponse;
 
 import java.util.List;
@@ -42,6 +44,9 @@ public interface ApiInterface {
 
     @POST("amaan/webapi/users/user/")
     Call<List<Loginingresponse>> loginreturn (@Body ActualLoginRequest request);
+
+    @POST("amaan/webapi/users/notes")
+    Call<NoteSaveResponse> NoteSaveReturn (@Body NotessveLoginRequest request);
 
 
 

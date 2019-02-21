@@ -1,6 +1,6 @@
 package com.example.shedupdate;
 
-public class MaterialPlanningResponse {
+public class MachineandPlantResponse {
 
     private int loco_number;
 
@@ -8,7 +8,7 @@ public class MaterialPlanningResponse {
 
     private String statuswa;
 
-    public MaterialPlanningResponse(int loco_number, String material, String statuswa) {
+    public MachineandPlantResponse(int loco_number, String material, String statuswa) {
         this.loco_number = loco_number;
         this.material = material;
         this.statuswa = statuswa;

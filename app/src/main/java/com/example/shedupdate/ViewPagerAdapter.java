@@ -15,15 +15,17 @@ import java.util.List;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
 
-    String hello;
+    String username,password;
     ArrayList<String> locoNumbersis,locoNotesis;
     ArrayList<String> ram,shyam;
 
 
-    public ViewPagerAdapter(FragmentManager fm, ArrayList<String> locoNumbersi, ArrayList<String> locoNotesi) {
+    public ViewPagerAdapter(FragmentManager fm, ArrayList<String> locoNumbersi, ArrayList<String> locoNotesi,String username,String password) {
         super(fm);
         locoNumbersis = locoNumbersi;
         locoNotesis = locoNotesi;
+        this.username=username;
+        this.password=password;
         hells(locoNumbersi,locoNotesis);
         Log.d("bhaig031",locoNumbersis+"     "+locoNotesis);
     }
@@ -45,6 +47,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             bundle.putString("message", "Fragment " + i);
             bundle.putStringArrayList("loconumber",locoNumbersis);
             bundle.putStringArrayList("loconotes",locoNotesis);
+            bundle.putString("username",username);
+            bundle.putString("password",password);
             bundle.putString("edttext", "From Activity");
 // set Fragmentclass Arguments
             dailyPosition.setArguments(bundle);
@@ -91,8 +95,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }else {if (position==1){
             return "Fail Ana";
         }else if (position==2){
-            return "Mat Pla";
-        }else return "M&P";}
+            return "M&P";
+        }else return "Mat Pla";}
 
     }
 

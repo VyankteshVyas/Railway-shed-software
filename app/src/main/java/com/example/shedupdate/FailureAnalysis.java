@@ -2,8 +2,11 @@ package com.example.shedupdate;
 
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +45,16 @@ import static android.support.constraint.Constraints.TAG;
  */
 public class FailureAnalysis extends Fragment {
 
+    boolean connected = false;
+
+
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     String currentDateString;
     String datei1=new String();
     String datei2=new String();
     RecyclerView recyclerView;
-    TextView date1,date2;
+    TextView date1,date2,failureanalysiserror;
+    ProgressBar failureanalysisprogressBar;
     public FailureAnalysis() {
         // Required empty public constructor
     }
@@ -62,9 +70,11 @@ public class FailureAnalysis extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        recyclerView=getActivity().findViewById(R.id.recycliverview);
+        recyclerView=getActivity().findViewById(R.id.failureanalysisrecycliverview);
         date1=getActivity().findViewById(R.id.date1);
         date2=getActivity().findViewById(R.id.date2);
+        failureanalysisprogressBar=getActivity().findViewById(R.id.failureanalysisprogressBar);
+        failureanalysiserror=getActivity().findViewById(R.id.failureanalysiserror);
 //        submit=getActivity().findViewById(R.id.subimiit);
         getfairesponses();
     }
@@ -181,11 +191,18 @@ public class FailureAnalysis extends Fragment {
                                 Log.d("ocuure",response.toString());
                                 Log.d("dfhuduue",response.body().toString());
 
+                                failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                failureanalysiserror.setVisibility(View.INVISIBLE);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 recyclerView.setAdapter(new FailureAnalysisRecyclerviewAdapter(failureAnalysisResponses,getActivity()));
 
 
                             } else {
+                                failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                failureanalysiserror.setVisibility(View.VISIBLE);
+                                failureanalysiserror.setText("Some Error Occured");
                                 Toast.makeText(getActivity(), "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
                                 Log.d("failurem",response.toString());
                             }
@@ -193,6 +210,10 @@ public class FailureAnalysis extends Fragment {
 
                         @Override
                         public void onFailure(Call<List<FailureAnalysisResponse>> call, Throwable t) {
+                            failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            failureanalysiserror.setVisibility(View.VISIBLE);
+                            failureanalysiserror.setText("Unable to fetch data at the moment");
                             Log.d("failure",t.getMessage());
 
                         }
@@ -283,17 +304,29 @@ public class FailureAnalysis extends Fragment {
 //
                     List<FailureAnalysisResponse> failureAnalysisResponses=response.body();
 
-                    Log.d("getdeti",failureAnalysisResponses.get(0).getDetection());
+//                    Log.d("getdeti",failureAnalysisResponses.get(0).getDetection());
 //                    Toast.makeText(getActivity(),failureAnalysisResponses.toString(),Toast.LENGTH_LONG).show();
                     Log.d("ocuuredsuccesis",failureAnalysisResponses.toString());
                     Log.d("ocuure",response.toString());
                     Log.d("dfhuduue",response.body().toString());
+
+
+                    failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    if(failureAnalysisResponses.isEmpty()){
+                        failureanalysiserror.setVisibility(View.VISIBLE);
+                        failureanalysiserror.setText("No data available");
+                    }
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     recyclerView.setAdapter(new FailureAnalysisRecyclerviewAdapter(failureAnalysisResponses,getActivity()));
 
 
                 } else {
+                    failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    failureanalysiserror.setVisibility(View.VISIBLE);
+                    failureanalysiserror.setText("Some Error Occured");
                     Toast.makeText(getActivity(), "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
                     Log.d("failurem",response.toString());
                 }
@@ -302,6 +335,10 @@ public class FailureAnalysis extends Fragment {
             @Override
             public void onFailure(Call<List<FailureAnalysisResponse>> call, Throwable t) {
 
+                failureanalysisprogressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                failureanalysiserror.setVisibility(View.VISIBLE);
+                failureanalysiserror.setText("Unable to fetch data at the moment");
                 Log.d("failure",t.getMessage());
             }
         });
@@ -319,5 +356,17 @@ public class FailureAnalysis extends Fragment {
                 year,month,day);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    public void checkinternetconnection(){
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
     }
 }

@@ -8,6 +8,7 @@ public class ActualLoginRequest {
     String username;
     String password;
 
+
     public ActualLoginRequest(){}
 
     public ActualLoginRequest(String username, String password) {

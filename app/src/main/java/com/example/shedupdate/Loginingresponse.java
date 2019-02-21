@@ -8,10 +8,32 @@ public class Loginingresponse {
     private Integer loco_number;
     @Expose
     private String notes;
+    @Expose
+    private Integer validity;
+    @Expose
+    private String datewa;
 
-    public Loginingresponse(Integer loco_number, String notes) {
+    public Loginingresponse(Integer loco_number, String notes,Integer validity,String datewa) {
         this.loco_number = loco_number;
         this.notes = notes;
+        this.validity=validity;
+        this.datewa=datewa;
+    }
+
+    public Integer getValidity() {
+        return validity;
+    }
+
+    public void setValidity(Integer validity) {
+        this.validity = validity;
+    }
+
+    public String getDatewa() {
+        return datewa;
+    }
+
+    public void setDatewa(String datewa) {
+        this.datewa = datewa;
     }
 
     public Integer getLoco_number() {

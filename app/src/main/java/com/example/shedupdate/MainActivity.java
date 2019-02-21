@@ -1,6 +1,7 @@
 package com.example.shedupdate;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,13 +62,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         ArrayList<String> loconumbers= (ArrayList<String>) getIntent().getSerializableExtra("loconumbers");
         ArrayList<String> loconotes1= (ArrayList<String>) getIntent().getSerializableExtra("loconotes");
+        String username=getIntent().getStringExtra("username");
+        String password=getIntent().getStringExtra("password");
         viewPager=findViewById(R.id.pager);
-        viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),loconumbers,loconotes1);
+        viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),loconumbers,loconotes1,username,password);
         viewPager.setAdapter(viewPagerAdapter);
-        toolbar=findViewById(R.id.toolr);
+        toolbar=findViewById(R.id.toolb);
         tabLayout=findViewById(R.id.tabs);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("");
+
         tabLayout.setupWithViewPager(viewPager);
 
 
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 //        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),loconumbers,loconotes1);
 
-        Log.d("bhai01","dfdjdi"+loconumbers+"         "+loconotes1);
+        Log.d("bhai01","dfdj02di"+loconumbers+"         "+loconotes1);
 //        DailyPosition dailyPosition=new DailyPosition();
 //        dailyPosition.hello(loconumbers,loconotes1);
 
@@ -191,5 +196,40 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 year,month,day);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.Logout_action_button:
+                logout();
+
+                return true;
+            case R.id.action_setting_button:
+                moveToAccountSetup();
+
+
+            default:return false;
+        }
+    }
+
+    private void logout() {
+        Intent intent=new Intent(MainActivity.this,Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void moveToAccountSetup() {
+        Intent intent=new Intent(MainActivity.this,Adminscreen.class);
+        startActivity(intent);
+        finish();
     }
 }

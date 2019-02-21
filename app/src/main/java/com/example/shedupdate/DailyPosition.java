@@ -2,11 +2,15 @@ package com.example.shedupdate;
 
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,13 +21,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shedupdate.restClient.RestClient;
+import com.example.shedupdate.restClient.request.ActualLoginRequest;
 import com.example.shedupdate.restClient.request.LoginRequest;
 import com.example.shedupdate.restClient.response.LoginResponse;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,14 +51,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    boolean connected = false;
 
+    RelativeLayout nointerconnectionview;
+    CardView nointernetconnectioncardview;
     ArrayList<String> loconumbers;
     ArrayList<String> loconotes;
+    ArrayList<String> loconotesdatewa;
+    String username,password;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     String currentDateString;
     private static final String TAG = "MainActivity";
     String daet=new String();
-    TextView textView;
+    ProgressBar dailypositionprogressBar;
+    TextView textView,dialypositionerror;
     RecyclerView recyclerView;
 
     public DailyPosition() {
@@ -64,7 +80,9 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
         if (bundle!=null){
             String strtext = getArguments().getString("edttext");
             loconumbers=getArguments().getStringArrayList("loconumber");
+            username=getArguments().getString("username");
             loconotes=getArguments().getStringArrayList("loconotes");
+            password=getArguments().getString("password");
             Log.d("bhai02"," "+strtext);
 //            Log.d("radif","df"+loconumbers.toString());
         }
@@ -77,9 +95,36 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
         super.onActivityCreated(savedInstanceState);
         textView=getActivity().findViewById(R.id.datie);
         recyclerView=getActivity().findViewById(R.id.recyclerview);
+        dialypositionerror=getActivity().findViewById(R.id.dialypositionerror);
+        dailypositionprogressBar=getActivity().findViewById(R.id.dailypositionprogressBar);
+        nointerconnectionview=getActivity().findViewById(R.id.nointerconnectionview);
+        nointernetconnectioncardview=getActivity().findViewById(R.id.nointernetconnectioncardview);
+//        nointerconnectionview.setVisibility(View.VISIBLE);
+        Log.d("dailypo","activitycreated");
 
 
-        getHeroes();
+        checkinternetconnection();
+        if (connected!=false){
+
+//            getHeroes();
+            Log.d("dailypo","activitycreated"+connected);
+            nointerconnectionview.setVisibility(View.INVISIBLE);
+            Log.d("dailypo","Onresume");
+            dialypositionerror.setVisibility(View.INVISIBLE);
+            dailypositionprogressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(),"1111111dailypo",Toast.LENGTH_SHORT);
+        }else {
+            Log.d("dailypo","activitycreated"+connected);
+            Log.d("dailypo","Onresume");
+            nointerconnectionview.setVisibility(View.VISIBLE);
+            dialypositionerror.setVisibility(View.INVISIBLE);
+            dailypositionprogressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(),"1111111dailypo",Toast.LENGTH_SHORT);
+        }
+
+
+
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,32 +166,56 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
 
             @Override
             public void afterTextChanged(Editable s) {
-                Call<List<LoginResponse>> call = RestClient.get().loginRequest(new LoginRequest(daet));
-                call.enqueue(new Callback<List<LoginResponse>>() {
-                    @Override
-                    public void onResponse(Call<List<LoginResponse>> call, Response<List<LoginResponse>> response) {
-                        if (response.isSuccessful()) {
+                nointerconnectionview.setVisibility(View.VISIBLE);
+                checkinternetconnection();
+                if (connected!=false){
 
-                            List<LoginResponse> loginResponses=response.body();
+                    Call<List<LoginResponse>> call = RestClient.get().loginRequest(new LoginRequest(daet));
+                    call.enqueue(new Callback<List<LoginResponse>>() {
+                        @Override
+                        public void onResponse(Call<List<LoginResponse>> call, Response<List<LoginResponse>> response) {
+
+                            if (response.isSuccessful()) {
+
+                                List<LoginResponse> loginResponses=response.body();
 //                            Toast.makeText(getActivity(),loginResponses.toString(),Toast.LENGTH_LONG).show();
-                            Log.d("ocuuredsucces",loginResponses.toString());
+                                Log.d("ocuuredsucces",loginResponses.toString());
+//                            Log.d("ocuuredsuccesis",loconumbers.toString());
+//                            Log.d("ocuuredsuccesis",loconotes.toString());
 
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            recyclerView.setAdapter(new Recyadapter(loginResponses,getActivity(),loconumbers,loconotes));
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                recyclerView.setAdapter(new Recyadapter(loginResponses,getActivity(),loconumbers,loconotes,username,password));
 
 
-                        } else {
-                            Toast.makeText(getActivity(), "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
-                            Log.d("failurem",response.toString());
+                            } else {
+                                Toast.makeText(getActivity(), "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
+                                Log.d("failurem",response.toString());
+                            }
+
                         }
 
-                    }
+                        @Override
+                        public void onFailure(Call<List<LoginResponse>> call, Throwable t) {
 
-                    @Override
-                    public void onFailure(Call<List<LoginResponse>> call, Throwable t) {
+                            //shri vinod kumar Sr. dme ratlam
+                        }
+                    });
+                    Log.d("dailypo","activitycreated"+connected);
+                    nointerconnectionview.setVisibility(View.INVISIBLE);
+                    Log.d("dailypo","Onresume");
+                    dialypositionerror.setVisibility(View.INVISIBLE);
+                    dailypositionprogressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(),"1111111dailypo",Toast.LENGTH_SHORT);
+                }else {
+                    Log.d("dailypo","activitycreated"+connected);
+                    Log.d("dailypo","Onresume");
+                    dialypositionerror.setVisibility(View.INVISIBLE);
+                    dailypositionprogressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(),"1111111dailypo",Toast.LENGTH_SHORT);
+                }
 
-                    }
-                });
             }
         });
 //        Submit.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +251,14 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
 //        });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar calendar=Calendar.getInstance();
@@ -191,7 +268,11 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
         currentDateString= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         textView.setText(currentDateString);
     }
+
     private void getHeroes(){
+
+
+
         loconumbers=getArguments().getStringArrayList("loconumber");
         loconotes=getArguments().getStringArrayList("loconotes");
         Retrofit retrofit=new Retrofit.Builder()
@@ -207,8 +288,43 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
                 String s=response.body().toString();
                 Log.d("responsebody",response.toString());
                 Log.d("responseibodyi",s);
+                String h="1";
+                FileInputStream fileInputStream=null;
+                try {
+                    fileInputStream=getActivity().openFileInput("datetype.txt");
+                    int read=-1;
+                    StringBuffer stringBuffer=new StringBuffer();
+                    while ((read=fileInputStream.read())!=-1){
+                        stringBuffer.append((char) read);
+                    }
+                    Log.d("valueofauthentication",""+stringBuffer.toString());
+                    if (stringBuffer.toString().equals("1")){
+                        h="1";
+                    }else h="0";
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }catch (NullPointerException n){
+                        Toast.makeText(getActivity(),"It's null pointero",Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                if (heroList.isEmpty()){
+                    Toast.makeText(getActivity(),"It is empty",Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getActivity(),"It is not empty",Toast.LENGTH_LONG).show();
+
+                }
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setAdapter(new RecyclerviewAdapter(heroList,getActivity(),loconumbers,loconotes));
+                recyclerView.setAdapter(new RecyclerviewAdapter(heroList,getActivity(),loconumbers,loconotes,username,password,h));
+                dailypositionprogressBar.setVisibility(View.INVISIBLE);
+                dialypositionerror.setVisibility(View.INVISIBLE);
 
 
 
@@ -217,6 +333,8 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
             @Override
             public void onFailure(Call<List<Hero>> call, Throwable t) {
                 Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                dialypositionerror.setVisibility(View.VISIBLE);
+                dailypositionprogressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -234,6 +352,21 @@ public class DailyPosition extends Fragment implements DatePickerDialog.OnDateSe
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    public void checkinternetconnection(){
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
+    }
+
+
+
 
 
 }

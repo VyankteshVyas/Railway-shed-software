@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="300dp"
-        android:orientation="vertical"
-        android:layout_height="300dp">
-        <EditText
-            android:layout_width="match_parent"
-            android:id="@+id/noteedit"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="Please Enter your note here"
-            android:textAlignment="center"
-            android:textColorHint="@android:color/darker_gray"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_height="200dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
 
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notesrecyclerview"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <include
+            layout="@layout/notessinglerow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notesrecyclerview" />
 
         <Button
 
             android:layout_width="162dp"
             android:layout_height="57dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/submit"
             android:background="@drawable/buttonstyle"
             android:layout_gravity="center_horizontal"
             android:text="Submit"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+
     </LinearLayout>
 
 </RelativeLayout>

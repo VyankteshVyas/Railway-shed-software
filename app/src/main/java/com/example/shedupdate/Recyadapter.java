@@ -26,12 +26,15 @@ public class Recyadapter extends RecyclerView.Adapter<Recyadapter.RecyclerViewho
     List<LoginResponse> heroList;
     Context context;
     ArrayList<String> locoNumbersi,locoNotesi;
+    String username,password;
 
-    public Recyadapter(List<LoginResponse> heroList, Context context,ArrayList<String> locoNumbersi, ArrayList<String> locoNotesi) {
+    public Recyadapter(List<LoginResponse> heroList, Context context,ArrayList<String> locoNumbersi, ArrayList<String> locoNotesi,String username,String password) {
         this.heroList = heroList;
         this.context = context;
+        this.username=username;
+        this.password=password;
         this.locoNumbersi = locoNumbersi;
-        Log.d("hids",locoNumbersi.toString());
+//        Log.d("hids",locoNumbersi.toString());
 
         this.locoNotesi = locoNotesi;
     }
@@ -41,14 +44,14 @@ public class Recyadapter extends RecyclerView.Adapter<Recyadapter.RecyclerViewho
         LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
         View view=inflater.inflate(R.layout.singlecardview,viewGroup,false);
         RecyclerViewholder recyclerviewHolder=new RecyclerViewholder(view);
-        Log.d("hids1",locoNumbersi.toString());
+//        Log.d("hids1",locoNumbersi.toString());
         return recyclerviewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewholder recyclerViewholder, final int i) {
 
-        Log.d("hids2",locoNumbersi.toString());
+//        Log.d("hids2",locoNumbersi.toString());
         recyclerViewholder.wd.setText(heroList.get(i).getWd());
         recyclerViewholder.ws.setText(heroList.get(i).getWs());
         recyclerViewholder.ff.setText(heroList.get(i).getFf());
@@ -63,21 +66,17 @@ public class Recyadapter extends RecyclerView.Adapter<Recyadapter.RecyclerViewho
         recyclerViewholder.locono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (locoNumbersi.contains(String.valueOf(heroList.get(i).getLoco_number()))){
-                    int j=locoNumbersi.indexOf(String.valueOf(heroList.get(i).getLoco_number()));
-
-                    FragmentManager manager=((AppCompatActivity)context).getSupportFragmentManager();
+                FragmentManager manager=((AppCompatActivity)context).getSupportFragmentManager();
 //                    FragmentTransaction transaction=manager.beginTransaction();
-                    NotesDialog notesDialog=new NotesDialog();
-                    Bundle args=new Bundle();
-                    args.putString("notes",locoNotesi.get(j));
-                    notesDialog.setArguments(args);
-                    notesDialog.show(manager,"difidh");
-                    Log.d("hids",String.valueOf(heroList.get(i).getLoco_number()));
-//                    Toast.makeText(context,locoNotesi.get(j),Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(context,"No",Toast.LENGTH_LONG).show();
-                }
+                NotesDialog notesDialog=new NotesDialog();
+                Bundle args=new Bundle();
+
+                args.putString("loco_number",String.valueOf(heroList.get(i).getLoco_number()));
+                args.putString("username",username);
+                args.putString("password",password);
+                notesDialog.setArguments(args);
+                notesDialog.show(manager,"difidh");
+                Log.d("hids",String.valueOf(heroList.get(i).getLoco_number()));
             }
         });
 
@@ -139,7 +138,7 @@ public class Recyadapter extends RecyclerView.Adapter<Recyadapter.RecyclerViewho
 
     @Override
     public int getItemCount() {
-        Log.d("hids4",locoNumbersi.toString());
+//        Log.d("hids4",locoNumbersi.toString());
         return heroList.size();
     }
 

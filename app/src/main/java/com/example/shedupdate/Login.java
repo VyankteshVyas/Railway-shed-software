@@ -1,6 +1,11 @@
 package com.example.shedupdate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +26,13 @@ import com.example.shedupdate.restClient.request.ActualLoginRequest;
 import com.example.shedupdate.restClient.request.LoginRequest;
 import com.example.shedupdate.restClient.response.LoginResponse;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -31,14 +42,16 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity implements Listtransfer{
 
+
+    boolean connected = false;
     ArrayList<String> loconumbers=new ArrayList<>();
     ArrayList<String> loconotes=new ArrayList<>();
-    EditText username,password,registeringusername,registeringpassword,registermobilenubmer;
-    Spinner usertypespinner;
+    EditText username,password,registeringusername,registeringpassword,registermobilenubmer,usertypespinner;
+
     Button login,register;
     Listtransfer listtransfer;
     LinearLayout lini,lino;
-    TextView signuplink;
+    TextView signuplink,registerinpro;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +60,7 @@ public class Login extends AppCompatActivity implements Listtransfer{
         login=findViewById(R.id.login);
         username=findViewById(R.id.loginid);
         password=findViewById(R.id.password);
+        registerinpro=findViewById(R.id.registerinpro);
         signuplink=findViewById(R.id.signuplink);
         lini=findViewById(R.id.lini);
         lino=findViewById(R.id.lino);
@@ -56,16 +70,36 @@ public class Login extends AppCompatActivity implements Listtransfer{
         usertypespinner=findViewById(R.id.usertypespinner);
         registermobilenubmer=findViewById(R.id.registermobilenubmer);
         listtransfer=Login.this;
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        String formattedDate = df.format(c);
+
+        Toast.makeText(Login.this,""+df+"   "+formattedDate,Toast.LENGTH_LONG).show();
+        Log.d("hloo",""+df+"   "+formattedDate);
+
+//        WifiManager wimanager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        String macAddress = wimanager.getConnectionInfo().getMacAddress();
+//        if (macAddress!=null){
+//            Toast.makeText(Login.this,"Mac address is "+macAddress,Toast.LENGTH_LONG).show();
+//        } else Toast.makeText(Login.this,"Mac address is null",Toast.LENGTH_LONG).show();
+
+
+        getAuthenticationStatus();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<List<Loginingresponse>> call=RestClient.get().loginreturn(new ActualLoginRequest(username.getText().toString(),password.getText().toString()));
-                call.enqueue(new Callback<List<Loginingresponse>>() {
-                    @Override
-                    public void onResponse(Call<List<Loginingresponse>> call, Response<List<Loginingresponse>> response) {
-                        if (response.isSuccessful()) {
+                checkinternetconnection();
 
-                            List<Loginingresponse> loginResponses=response.body();
+                if (connected==true){
+                    Call<List<Loginingresponse>> call=RestClient.get().loginreturn(new ActualLoginRequest(username.getText().toString(),password.getText().toString()));
+                    call.enqueue(new Callback<List<Loginingresponse>>() {
+                        @Override
+                        public void onResponse(Call<List<Loginingresponse>> call, Response<List<Loginingresponse>> response) {
+                            if (response.isSuccessful()) {
+
+                                List<Loginingresponse> loginResponses=response.body();
 
 //                            Log.d("bhai","rad"+loginResponses.size()+"dij"+loginResponses.get(0).getNotes()+"hellois"+loginResponses.get(0).getLoco_number());
 //                            if(loginResponses.size()>=1){
@@ -78,54 +112,56 @@ public class Login extends AppCompatActivity implements Listtransfer{
 //                                   List<String> rry=loginResponses.
 //                                }
 //                            }
-                            if (loginResponses.get(0).getNotes().equals("0")&&loginResponses.get(0).getLoco_number()==0){
+                                if (loginResponses.get(0).getLoco_number()==0&&loginResponses.get(0).getValidity()==0&&loginResponses.get(0).getNotes().equals("0")){
 //                                Log.d("exae","If got executed");
-                                Toast.makeText(Login.this,"Invalid Username and Password",Toast.LENGTH_LONG).show();
-                            }else {
-                                if (loginResponses.get(0).getNotes().equals("1")&&loginResponses.get(0).getLoco_number().toString()=="0"){
-//                                    Log.d("exae","Ifelseif got executed");
-                                    Intent intent=new Intent(Login.this,MainActivity.class);
-                                    intent.putExtra("determine","stop");
-                                    startActivity(intent);
+                                    Toast.makeText(Login.this,"Invalid Username and Password",Toast.LENGTH_LONG).show();
                                 }else {
+                                    if (loginResponses.get(0).getLoco_number()==0&&loginResponses.get(0).getValidity()==0&&loginResponses.get(0).getNotes().equals("1")&&loginResponses.get(0).getDatewa().equals("0")){
+                                        registerinpro.setVisibility(View.VISIBLE);
+                                    }else {
+                                        if (loginResponses.get(0).getNotes().equals("1")&&loginResponses.get(0).getValidity()==1){
+//                                    Log.d("exae","Ifelseif got executed");
+                                            Intent intent=new Intent(Login.this,Adminscreen.class);
+                                            intent.putExtra("username",username.getText().toString());
+                                            intent.putExtra("password",password.getText().toString());
+//                                        intent.putExtra("notescontent","0");
+                                            startActivity(intent);
+                                        }else {
 //                                    Log.d("exae","Ifelseelse got executed");
 
-                                    for (Loginingresponse loginingresponse:loginResponses){
-                                        loconumbers.add(loginingresponse.getLoco_number().toString());
-                                        loconotes.add(loginingresponse.getNotes().toString());
 
-
-
-
-                                    }
 //                                    Log.d("bhai0","dfdjdi"+loconumbers+"         "+loconotes);
-                                    listtransfer.respond(loconumbers,loconotes);
-                                    Intent intent=new Intent(Login.this,MainActivity.class);
-                                    intent.putExtra("loconumbers",loconumbers);
-                                    intent.putExtra("determine","go");
-                                    intent.putExtra("loconotes",loconotes);
-                                    startActivity(intent);
+                                            listtransfer.respond(loconumbers,loconotes);
+                                            Intent intent=new Intent(Login.this,Adminscreen.class);
+//                                        intent.putExtra("loconumbers",loconumbers);
+//                                        intent.putExtra("notescontent","1");
+                                            intent.putExtra("username",username.getText().toString());
+                                            intent.putExtra("password",password.getText().toString());
+//                                        intent.putExtra("loconotes",loconotes);
+                                            startActivity(intent);
 //                                    Toast.makeText(Login.this,loconumbers.toString(),Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
                                 }
+
+
+
+
+
+
+                            } else {
+                                Toast.makeText(Login.this, "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
+                                Log.d("failurem",response.toString());
                             }
-
-
-
-
-
-
-                        } else {
-                            Toast.makeText(Login.this, "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
-                            Log.d("failurem",response.toString());
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<Loginingresponse>> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<List<Loginingresponse>> call, Throwable t) {
 
-                        Toast.makeText(Login.this,t.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
+                            Toast.makeText(Login.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    });
 //                Log.d("insidelogin","chala");
 //                Call<String> call= RestClient.get().Loginreturn(new ActualLoginRequest(username.getText().toString(),password.getText().toString()));
 //                Log.d("beforecallback","chala");
@@ -157,6 +193,9 @@ public class Login extends AppCompatActivity implements Listtransfer{
 //                        Log.d("failure",t.getMessage());
 //                    }
 //                });
+                }else {
+                    Toast.makeText(Login.this,"Please check your internet connection",Toast.LENGTH_LONG).show();
+                }
             }
         });
         signuplink.setOnClickListener(new View.OnClickListener() {
@@ -169,9 +208,9 @@ public class Login extends AppCompatActivity implements Listtransfer{
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Log.d("insidelogin","chala");
-                Call<RegisterResponse> call= RestClient.get().Registerreturn(new LoginRequest(registeringusername.getText().toString(),registeringpassword.getText().toString(),registermobilenubmer.getText().toString(),"cmwa"));
+                Call<RegisterResponse> call= RestClient.get().Registerreturn(new LoginRequest(registeringusername.getText().toString(),registeringpassword.getText().toString(),registermobilenubmer.getText().toString(),usertypespinner.getText().toString()));
                 Log.d("beforecallback","chala");
                 call.enqueue(new Callback<RegisterResponse>() {
                     @Override
@@ -184,6 +223,7 @@ public class Login extends AppCompatActivity implements Listtransfer{
                             if (a.getLoco_number()==111){
                                 Toast.makeText(Login.this,"User Registration Successful",Toast.LENGTH_LONG).show();
                                 lino.setVisibility(View.VISIBLE);
+                                registerinpro.setVisibility(View.VISIBLE);
                                 lini.setVisibility(View.INVISIBLE);
                             }
                             if (a.getLoco_number()==222){
@@ -192,6 +232,7 @@ public class Login extends AppCompatActivity implements Listtransfer{
                             }
                         }else {
                             Toast.makeText(Login.this, "Error Occured Please try again1", Toast.LENGTH_SHORT).show();
+
                             Log.d("failurem",response.toString());
                         }
                     }
@@ -199,8 +240,9 @@ public class Login extends AppCompatActivity implements Listtransfer{
                     @Override
                     public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
-                        Log.d("failure",t.getMessage());
-                        Toast.makeText(Login.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                        Log.d("failureiy",t.getMessage());
+                        Snackbar.make(v,"Oops an error occured",Snackbar.LENGTH_LONG).setAction("Action",null).show();
+
 
                     }
                 });
@@ -243,11 +285,39 @@ public class Login extends AppCompatActivity implements Listtransfer{
         });
     }
 
+    private void getAuthenticationStatus() {
+        try {
+            FileInputStream fileInputStream=openFileInput("admin.txt");
+            int read=-1;
+            StringBuffer stringBuffer=new StringBuffer();
+            while ((read=fileInputStream.read())!=-1){
+                stringBuffer.append((char) read);
+            }
+            Log.d("valueofauthentication",""+stringBuffer.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void respond(List<String> locoNumbers, List<String> locoNotes) {
 
     }
     public ArrayList<String> getMyData() {
         return loconumbers;
+    }
+
+    public void checkinternetconnection(){
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
     }
 }
